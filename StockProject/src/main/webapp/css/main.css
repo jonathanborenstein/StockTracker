@@ -1,0 +1,49 @@
+
+.navbar {
+	background-color: blue;
+	border-color: blue;
+}
+
+.navbar > .container > div > .navbar-nav > li > a {
+	background: none;
+	color: white;
+	font-weight: bold;
+}
+
+.navbar > .container > div > .navbar-nav > li > a:hover {
+	background: none;
+	color: white;
+	font-weight: bold;
+}
+
+.navbar > .container > .navbar-header > a {
+	background: none;
+	color: white;
+	font-weight: bold;
+}
+
+.navbar > .container > .navbar-header > a:hover {
+	background: none;
+	color: white;
+	font-weight: bold;
+}
+
+
+.navbar-default .navbar-nav > .open > a:focus {
+	color: white;
+}
+
+.panel > .panel-heading {
+	background-color: blue;
+	color: white;
+	font-weight: bold;
+}
+
+
+textarea {
+	width: 100%;
+}
+
+.errors {
+	color: red;
+}
