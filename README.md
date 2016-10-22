@@ -8,3 +8,5 @@ The program is very simple to use. Just run the program and go to Add Stock Tran
 Perhaps you would add 20 shares of VZ bought at 40 dollars per share. You would add that and see it in your unrealized profits list. You will also see the dates of these transactions in a table.
 
 If you decide to sell 5 shares of your NFLX stock at a price of 105 dollars per share ($25 profit in this case) you will see that in your realized gains. In order to sell shares all you have to do is simply put a minus sign when you are adding a stock transaction (-5 in this case).
+
+Once the program is running go to localhost:8080/stocks as your starting point.
