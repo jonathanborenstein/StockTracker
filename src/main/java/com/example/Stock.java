@@ -73,6 +73,9 @@ public class Stock {
 				}
 
 				public Double lookup() {
+								if (this.getNumShares() == null) {
+												this.setNumShaares(1);
+								}
 								if (this.getSymbol() == null) {
 												return 0.00;
 								}
@@ -107,7 +110,7 @@ public class Stock {
 												LOG.error(e.getMessage());
 								} catch (NullPointerException e) {
 								}
-								return price;	
+								return price*this.getNumShares();	
 				}
 
 				public Double getPrice() {
