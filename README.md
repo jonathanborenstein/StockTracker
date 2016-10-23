@@ -9,4 +9,12 @@ Perhaps you would add 20 shares of VZ bought at 40 dollars per share. You would 
 
 If you decide to sell 5 shares of your NFLX stock at a price of 105 dollars per share ($25 profit in this case) you will see that in your realized gains. In order to sell shares all you have to do is simply put a minus sign when you are adding a stock transaction (-5 in this case).
 
+An easy way to run the project is:
+git clone https://github.com/jonathanborenstein/StockTracker.git
+
+Go to the directory where you cloned it and go to StockTracker/StockProject
+
+Once there run    
+mvn clean spring-boot:run
+
 Once the program is running go to localhost:8080/stocks as your starting point.
