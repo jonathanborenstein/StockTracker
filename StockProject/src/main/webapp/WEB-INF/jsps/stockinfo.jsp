@@ -77,7 +77,9 @@
 					<th>Symbol</th>  
 					<th>Shares Sold</th>    
 					<th>Price Sold At</th>    
-					<th>Realized Profit</th>       
+					<th>Proceeds</th>
+					<th>Cost</th>
+					<th>Realized Profit</th>           
 				<tbody>
 					<c:forEach var="realized" items="${realized}">
 
@@ -85,6 +87,9 @@
 							<td><c:out value="${realized.symbol}"></c:out></td>
 							<td><c:out value="${realized.numShares}"></c:out></td>
 							<td><c:out value="${realized.price}"></c:out></td>
+							<td><c:out value="${realized.proceeds}"></c:out></td>
+							<td><c:out value="${realized.cost}"></c:out></td>
+
 							<td><c:out value="${realized.realizedProfit}"></c:out></td>
 						</tr>
 					</c:forEach>

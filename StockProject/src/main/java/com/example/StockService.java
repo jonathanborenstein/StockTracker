@@ -105,11 +105,11 @@ public class StockService {
 		stockList = stockDao.findBySymbol(stock.getSymbol());
 		totalShares = 0;
 		for(int i =0; i < stockList.size(); i++){
-			totalShares = totalShares + stockList.get(i).getNumShares();
-
+			if (stockList.get(i).getSharesInLot() > 0){
+				totalShares = totalShares + stockList.get(i).getSharesInLot();
+			}
 		}
-
-		System.out.println(totalShares);
+		
 		return totalShares;
 
 	}
@@ -122,17 +122,13 @@ public class StockService {
 
 		for(int i =0; i < stockList.size(); i++){
 
-			if (stockList.get(i).getNumShares() > 0){
-				totalPrice = totalPrice + (stockList.get(i).getPrice() * stockList.get(i).getNumShares());
+			if (stockList.get(i).getSharesInLot() > 0){
+				totalPrice = totalPrice + (stockList.get(i).getPrice() * stockList.get(i).getSharesInLot());
 			}
-			else
-			{
-				totalPrice = totalPrice + (stockList.get(i).getNumShares() * getOriginalCost(stockList.get(i)));
-			}
-
 		}
 
-		System.out.println(totalPrice);
+
+
 		return totalPrice;
 
 	}
@@ -160,30 +156,50 @@ public class StockService {
 
 	}
 
-	public double getOriginalCost(Stock stock){
+
+	public void calcRealizedProfit(Stock stock) {
+
 		List<Stock> stockPrice = stockDao.findBySymbol(stock.getSymbol());
-
-		return stockPrice.get(0).getPrice();
-	}
-
-	public String calcRealizedProfit(Stock stock) {
-
-		double sharesSold = stock.getNumShares();
+		double shares = stock.getNumShares() *  -1;
+		double proceeds = 0;
+		double cost = 0;
 		String realized = "";
 
-		double proceeds= ((sharesSold * -1) * stock.getPrice());
-
-		double cost = ((sharesSold * -1) * getOriginalCost(stock));
-
-
-
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
-		realized = formatter.format(proceeds - cost);
 
-		realizedDao.save(new StockRealized(stock.getNumShares(), stock.getPrice(), stock.getSymbol(), realized));
-		return realized;
 
+		for (int i =0; i < stockPrice.size(); i++)
+		{
+			if(shares < stockPrice.get(i).getSharesInLot() && stockPrice.get(i).getSharesInLot() > 0){
+				stockPrice.get(i).setSharesInLot(stockPrice.get(i).getSharesInLot() - shares);
+				stockDao.save(stockPrice.get(i));
+
+				proceeds = stock.getPrice() * shares;
+				cost = stockPrice.get(i).getPrice() * shares;
+				realized = formatter.format(proceeds - cost);
+				realizedDao.save(new StockRealized(shares, stock.getPrice(), stock.getSymbol(), proceeds, cost, realized));
+
+				break;
+
+			}
+			else if (shares > stockPrice.get(i).getSharesInLot() && stockPrice.get(i).getSharesInLot() > 0){
+
+
+				cost = stockPrice.get(i).getPrice() * stockPrice.get(i).getSharesInLot();
+				proceeds = stock.getPrice() * stockPrice.get(i).getSharesInLot();
+				realized = formatter.format(proceeds - cost);
+				realizedDao.save(new StockRealized(stockPrice.get(i).getSharesInLot(), stock.getPrice(), stock.getSymbol(), proceeds, cost, realized));
+
+				shares = shares - stockPrice.get(i).getSharesInLot();
+				stockPrice.get(i).setSharesInLot(0);
+				stockDao.save(stockPrice.get(i));
+
+			}
+
+		}
 	}
+
+
 
 	public List<StockRealized> getRealizedProfits(){
 		return realizedDao.findAll();

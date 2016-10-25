@@ -34,13 +34,14 @@ public class StockController {
 	@RequestMapping(value="/stocks", method=RequestMethod.POST)
 	String stocks(Model model, @ModelAttribute(value="stock") @Valid Stock stock, BindingResult result) {
 		
-		
-		
+
+
 		if (stock.getNumShares() < 0){
 			stockService.calcRealizedProfit(stock);
 		}
 
 		if(!result.hasErrors()) {
+			stock.setSharesInLot(stock.getNumShares());
 			stockService.save(stock);
 		}
 		return "redirect:/generate";

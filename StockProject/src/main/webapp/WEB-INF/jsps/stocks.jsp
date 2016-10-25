@@ -32,8 +32,8 @@
 		<form:form method="post" modelAttribute="stock">
 
 			<div class="input-group">
-				<label class="col-sm-10 col-form-label">Number Of Shares:</label>
-
+				<label class="col-sm-10 col-form-label">Number Of Shares
+					(Put a minus sign in front if selling, example: -200)</label>
 				<form:input type="text" path="numShares" class="form-control" />
 			</div>
 

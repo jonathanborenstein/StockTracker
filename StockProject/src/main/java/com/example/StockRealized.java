@@ -21,6 +21,10 @@ public class StockRealized {
 	
 	private double price;
 	
+	private double proceeds;
+	
+	private double cost;
+
 	private String symbol;
 	
 	private String realizedProfit;
@@ -29,10 +33,12 @@ public class StockRealized {
 		
 	}
 
-	public StockRealized(double numShares, double price, String symbol, String realizedProfit) {
+	public StockRealized(double numShares, double price, String symbol, double proceeds, double cost, String realizedProfit) {
 		this.numShares = numShares;
 		this.price = price;
 		this.symbol = symbol;
+		this.proceeds = proceeds;
+		this.cost = cost;
 		this.realizedProfit = realizedProfit;
 	}
 
@@ -67,6 +73,24 @@ public class StockRealized {
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
 	}
+	
+
+	public double getProceeds() {
+		return proceeds;
+	}
+
+	public void setProceeds(double proceeds) {
+		this.proceeds = proceeds;
+	}
+
+	public double getCost() {
+		return cost;
+	}
+
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+
 
 	public String getRealizedProfit() {
 		return realizedProfit;

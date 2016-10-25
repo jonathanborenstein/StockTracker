@@ -29,6 +29,8 @@ public class Stock {
 	
 	private double price;
 	
+	private double sharesInLot;
+	
 	@NotBlank
 	@Pattern(regexp="[a-zA-Z]+")
 	private String symbol;
@@ -84,6 +86,17 @@ public class Stock {
 	public void setAdded(Date added) {
 		this.added = added;
 	}
+	
+	
+
+	public double getSharesInLot() {
+		return sharesInLot;
+	}
+
+	public void setSharesInLot(double sharesInLot) {
+		this.sharesInLot = sharesInLot;
+	}
+
 
 	@Override
 	public String toString() {
