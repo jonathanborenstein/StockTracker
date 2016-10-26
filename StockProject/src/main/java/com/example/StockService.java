@@ -101,33 +101,27 @@ public class StockService {
 
 	public double getTotalShares(Stock stock){
 
-		List<Stock> stockList = new ArrayList<Stock>();
-		stockList = stockDao.findBySymbol(stock.getSymbol());
-		totalShares = 0;
-		for(int i =0; i < stockList.size(); i++){
-			if (stockList.get(i).getSharesInLot() > 0){
-				totalShares = totalShares + stockList.get(i).getSharesInLot();
-			}
-		}
-		
+		List<Stock> stockList = stockDao.findBySymbol(stock.getSymbol());
+
+		totalShares = stockList
+				.stream()
+				.filter(e -> e.getSharesInLot() > 0)
+				.mapToDouble(e -> e.getSharesInLot())
+				.sum();
+
 		return totalShares;
 
 	}
 
 	public double getTotalPrice(Stock stock){
 
-		List<Stock> stockList = new ArrayList<Stock>();
-		stockList = stockDao.findBySymbol(stock.getSymbol());
-		totalPrice = 0;
+		List<Stock> stockList = stockDao.findBySymbol(stock.getSymbol());
 
-		for(int i =0; i < stockList.size(); i++){
-
-			if (stockList.get(i).getSharesInLot() > 0){
-				totalPrice = totalPrice + (stockList.get(i).getPrice() * stockList.get(i).getSharesInLot());
-			}
-		}
-
-
+		totalPrice = stockList
+				.stream()
+				.filter(e -> e.getSharesInLot() > 0)
+				.mapToDouble(e -> e.getPrice() * e.getSharesInLot())
+				.sum();
 
 		return totalPrice;
 
@@ -139,23 +133,17 @@ public class StockService {
 		return totalPrice / totalShares ;
 	}
 
-	public double getProfit(String symbol){
-		return (getCurrentPrice(symbol) - getAveragePrice()) * totalShares;
-	}
-
 	public String getTotalProfit(List<StockTotalObject> stockTotalList){
-		double profit = 0;
 
-		for (int i =0; i <stockTotalList.size(); i++){
-			profit = profit + stockTotalList.get(i).getProfit();
-		}
+		double profit = stockTotalList
+				.stream()
+				.mapToDouble(e -> e.getProfit())
+				.sum();
+
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
-		formatter.format(profit);
 
-		return 	formatter.format(profit);
-
+		return formatter.format(profit);
 	}
-
 
 	public void calcRealizedProfit(Stock stock) {
 
