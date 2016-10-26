@@ -32,6 +32,7 @@ public class StockService {
 
 	@Autowired
 	StockDao stockDao;
+	
 
 	@Autowired
 	RealizedDao realizedDao;
