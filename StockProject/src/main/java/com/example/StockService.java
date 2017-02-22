@@ -32,7 +32,6 @@ public class StockService {
 
 	@Autowired
 	StockDao stockDao;
-	
 
 	@Autowired
 	RealizedDao realizedDao;
@@ -57,8 +56,6 @@ public class StockService {
 
 		return price;
 	}
-
-
 
 	public List<StockTotalObject> getStockInfo(List<Stock> stockList) {
 		double totalPrice;
@@ -128,7 +125,6 @@ public class StockService {
 
 	}
 
-
 	public double getAveragePrice(){
 
 		return totalPrice / totalShares ;
@@ -156,35 +152,31 @@ public class StockService {
 
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 
+		for (int i =0; i < stockPrice.size(); i++) {
+			
+			Stock currentStock = stockPrice.get(i);
 
-		for (int i =0; i < stockPrice.size(); i++)
-		{
-			if(shares < stockPrice.get(i).getSharesInLot() && stockPrice.get(i).getSharesInLot() > 0){
-				stockPrice.get(i).setSharesInLot(stockPrice.get(i).getSharesInLot() - shares);
-				stockDao.save(stockPrice.get(i));
+			if(shares < currentStock.getSharesInLot() && currentStock.getSharesInLot() > 0){
+				currentStock.setSharesInLot(currentStock.getSharesInLot() - shares);
+				stockDao.save(currentStock);
 
 				proceeds = stock.getPrice() * shares;
-				cost = stockPrice.get(i).getPrice() * shares;
+				cost = currentStock.getPrice() * shares;
 				realized = formatter.format(proceeds - cost);
 				realizedDao.save(new StockRealized(shares, stock.getPrice(), stock.getSymbol(), proceeds, cost, realized));
 
 				break;
+			} else if (shares > currentStock.getSharesInLot() && currentStock.getSharesInLot() > 0){
 
-			}
-			else if (shares > stockPrice.get(i).getSharesInLot() && stockPrice.get(i).getSharesInLot() > 0){
-
-
-				cost = stockPrice.get(i).getPrice() * stockPrice.get(i).getSharesInLot();
-				proceeds = stock.getPrice() * stockPrice.get(i).getSharesInLot();
+				cost = currentStock.getPrice() * currentStock.getSharesInLot();
+				proceeds = stock.getPrice() * currentStock.getSharesInLot();
 				realized = formatter.format(proceeds - cost);
-				realizedDao.save(new StockRealized(stockPrice.get(i).getSharesInLot(), stock.getPrice(), stock.getSymbol(), proceeds, cost, realized));
+				realizedDao.save(new StockRealized(currentStock.getSharesInLot(), stock.getPrice(), stock.getSymbol(), proceeds, cost, realized));
 
-				shares = shares - stockPrice.get(i).getSharesInLot();
-				stockPrice.get(i).setSharesInLot(0);
-				stockDao.save(stockPrice.get(i));
-
+				shares = shares - currentStock.getSharesInLot();
+				currentStock.setSharesInLot(0);
+				stockDao.save(currentStock);
 			}
-
 		}
 	}
 

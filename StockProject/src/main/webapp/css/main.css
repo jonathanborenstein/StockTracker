@@ -1,4 +1,8 @@
 
+div {
+	margin:1em;
+}
+
 .navbar {
 	background-color: blue;
 	border-color: blue;

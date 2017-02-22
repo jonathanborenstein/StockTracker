@@ -38,12 +38,13 @@
 			</div>
 
 			<div class="input-group">
-				<label class="col-sm-10 col-form-label">Price Of Shares:</label>
+				<label class="col-sm-10 col-form-label">Price Of Shares (The price paid for
+				shares, or if selling, the price the shares were sold at) :</label>
 				<form:input type="text" path="price" class="form-control" />
 			</div>
 
 			<div class="input-group">
-				<label class="col-sm-10 col-form-label">Stock Symbol:</label>
+				<label class="col-sm-10 col-form-label">Stock Symbol (e.g. AAPL):</label>
 				<form:input type="text" path="symbol" class="form-control" />
 				<form:errors path="symbol"></form:errors>
 
