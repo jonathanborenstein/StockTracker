@@ -1,6 +1,8 @@
 # StockTracker
 A web application for tracking your portfolio
 
+UPDATE: An example can be found here: https://stocktracker1.herokuapp.com/
+
 UPDATE: The program has been updated so that when you sell some of your shares, the realized profit will be taken from the first lot of shares you bought that has not been sold off yet. For example, if you purchase 10 shares of AAPL at $100, purchase another 10 shares of AAPL at $105, and then decide to sell 12 shares at $110, the first 10 shares will be sold and recorded with a profit of ($110 - $100), while the next 2 shares will be sold and recorded at a price of ($110 - 105). Once a lot is completely sold off it is not taken into account anymore.
 
 This program is built with the Spring Framework, such as the Spring Boot, Spring MVC, and Spring JPA projects. It uses Google's GSON, as well as an emedded H2 database. If you don't want to use the H2 database you can save the information to a database in the application.properties file. The program already has the connector jar for MySQL.
