@@ -17,14 +17,14 @@ public class StockRealized {
 	@Column(name = "id")
 	private Long id;
 	
-	private double numShares;
+	private int numShares;
 	
 	private double price;
 	
 	private double proceeds;
 	
 	private double cost;
-
+	
 	private String symbol;
 	
 	private String realizedProfit;
@@ -33,7 +33,7 @@ public class StockRealized {
 		
 	}
 
-	public StockRealized(double numShares, double price, String symbol, double proceeds, double cost, String realizedProfit) {
+	public StockRealized(int numShares, double price, String symbol, double proceeds, double cost, String realizedProfit) {
 		this.numShares = numShares;
 		this.price = price;
 		this.symbol = symbol;
@@ -50,11 +50,13 @@ public class StockRealized {
 		this.id = id;
 	}
 
-	public double getNumShares() {
+
+
+	public int getNumShares() {
 		return numShares;
 	}
 
-	public void setNumShares(double numShares) {
+	public void setNumShares(int numShares) {
 		this.numShares = numShares;
 	}
 
@@ -90,7 +92,6 @@ public class StockRealized {
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
-
 
 	public String getRealizedProfit() {
 		return realizedProfit;

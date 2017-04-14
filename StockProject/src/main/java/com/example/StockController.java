@@ -13,13 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 
-
 @Controller
 public class StockController {
 
 
 	@Autowired
 	private StockService stockService;
+
+	@RequestMapping(value="/", method=RequestMethod.GET)
+	String stocksHome() {
+
+		return "redirect:/stocks";
+	}
 
 
 	@RequestMapping(value="/stocks", method=RequestMethod.GET)
@@ -34,8 +39,12 @@ public class StockController {
 	@RequestMapping(value="/stocks", method=RequestMethod.POST)
 	String stocks(Model model, @ModelAttribute(value="stock") @Valid Stock stock, BindingResult result) {
 		
-
-
+		stock.setSymbol(stock.getSymbol().toUpperCase());
+		
+		if (stockService.getCurrentPrice(stock.getSymbol()) == 0.0 || stock.getNumShares() == 0.0){
+			return "redirect:/stocks";
+		}
+		
 		if (stock.getNumShares() < 0){
 			stockService.calcRealizedProfit(stock);
 		}
@@ -63,8 +72,6 @@ public class StockController {
 		model.addAttribute("realized", realized);
 
 	
-
-
 		return "stockinfo";
 	}
 }

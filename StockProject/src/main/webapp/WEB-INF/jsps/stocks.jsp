@@ -56,6 +56,13 @@
 			</div>
 
 		</form:form>
+		
+		<p>An example entry to your portfolio would be 100 in the first field, 80 in the second field,
+		and AAPL in the third field.</p>
+		<p>If you later wanted to sell off 50 shares at 100 dollars, you would put -50 in the first field, 100
+		in the second field, and AAPL in the third field.</p>
+		<p>Please remember to enter a valid stock symbol such as AAPL, MSFT, GOOG, AMZN, FB.</p>
+		
 
 	</div>
 

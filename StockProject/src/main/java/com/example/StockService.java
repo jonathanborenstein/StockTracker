@@ -1,34 +1,29 @@
 package com.example;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import yahoofinance.YahooFinance;
+
 
 @Service
 public class StockService {
 
 	private double totalPrice;
-	private double totalShares;
-	private double price;
+	private int totalShares;
 
-	private String url;
+	/*private String url;
 	private String json;
 	private JsonParser parser;
 	private JsonElement element;
-	private JsonObject dataset;
+	private JsonObject dataset;*/
 
 	@Autowired
 	StockDao stockDao;
@@ -38,7 +33,7 @@ public class StockService {
 
 	Set<String> stockSet = new HashSet<String>();
 
-	public double getCurrentPrice(String symbol){
+	/*public double getCurrentPrice(String symbol){
 
 		url = "http://www.google.com/finance/option_chain?q=" + symbol + "&output=json";
 		try {
@@ -55,6 +50,25 @@ public class StockService {
 		price = dataset.get("underlying_price").getAsDouble();
 
 		return price;
+	}*/
+
+	public Double getCurrentPrice(String quote){
+		yahoofinance.Stock stock;
+		BigDecimal price = null;
+		double priceDouble;
+
+		try {
+			stock = YahooFinance.get(quote);
+			price = stock.getQuote(true).getPrice();
+			priceDouble = price.doubleValue();
+
+		} catch (Exception e) {
+			//e.printStackTrace();
+			priceDouble = 0.0;
+		}
+
+		return priceDouble;
+
 	}
 
 	public List<StockTotalObject> getStockInfo(List<Stock> stockList) {
@@ -78,7 +92,8 @@ public class StockService {
 					profit = getUnrealizedProfit(stockList.get(i));
 					symbol = stockList.get(i).getSymbol();
 					currentPrice = getCurrentPrice(symbol);
-					stockTotal.add(new StockTotalObject(totalShares, totalPrice, averagePrice, profit, currentPrice, symbol));
+					stockTotal.add(new StockTotalObject(totalShares, totalPrice, averagePrice, 
+							profit, currentPrice, symbol));
 				}
 
 			}
@@ -97,14 +112,14 @@ public class StockService {
 		return getMarketValue(stock) - totalPrice;
 	}
 
-	public double getTotalShares(Stock stock){
+	public int getTotalShares(Stock stock){
 
 		List<Stock> stockList = stockDao.findBySymbol(stock.getSymbol());
 
 		totalShares = stockList
 				.stream()
 				.filter(e -> e.getSharesInLot() > 0)
-				.mapToDouble(e -> e.getSharesInLot())
+				.mapToInt(e -> e.getSharesInLot())
 				.sum();
 
 		return totalShares;
@@ -145,7 +160,7 @@ public class StockService {
 	public void calcRealizedProfit(Stock stock) {
 
 		List<Stock> stockPrice = stockDao.findBySymbol(stock.getSymbol());
-		double shares = stock.getNumShares() *  -1;
+		int shares = stock.getNumShares() *  -1;
 		double proceeds = 0;
 		double cost = 0;
 		String realized = "";
@@ -153,25 +168,29 @@ public class StockService {
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 
 		for (int i =0; i < stockPrice.size(); i++) {
-			
+
 			Stock currentStock = stockPrice.get(i);
 
-			if(shares < currentStock.getSharesInLot() && currentStock.getSharesInLot() > 0){
+			if(shares <= currentStock.getSharesInLot() && currentStock.getSharesInLot() > 0){
+
 				currentStock.setSharesInLot(currentStock.getSharesInLot() - shares);
 				stockDao.save(currentStock);
 
 				proceeds = stock.getPrice() * shares;
 				cost = currentStock.getPrice() * shares;
 				realized = formatter.format(proceeds - cost);
-				realizedDao.save(new StockRealized(shares, stock.getPrice(), stock.getSymbol(), proceeds, cost, realized));
+				realizedDao.save(new StockRealized(shares, stock.getPrice(), stock.getSymbol(), 
+						proceeds, cost, realized));
 
 				break;
+
 			} else if (shares > currentStock.getSharesInLot() && currentStock.getSharesInLot() > 0){
 
 				cost = currentStock.getPrice() * currentStock.getSharesInLot();
 				proceeds = stock.getPrice() * currentStock.getSharesInLot();
 				realized = formatter.format(proceeds - cost);
-				realizedDao.save(new StockRealized(currentStock.getSharesInLot(), stock.getPrice(), stock.getSymbol(), proceeds, cost, realized));
+				realizedDao.save(new StockRealized(currentStock.getSharesInLot(), stock.getPrice(), 
+						stock.getSymbol(), proceeds, cost, realized));
 
 				shares = shares - currentStock.getSharesInLot();
 				currentStock.setSharesInLot(0);

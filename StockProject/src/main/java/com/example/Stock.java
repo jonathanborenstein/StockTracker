@@ -11,7 +11,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,14 +24,13 @@ public class Stock {
 	@Column(name = "id")
 	private Long id;
 	
-	private double numShares;
+	private int numShares;
 	
 	private double price;
 	
-	private double sharesInLot;
+	private int sharesInLot;
 	
 	@NotBlank
-	@Pattern(regexp="[a-zA-Z]+")
 	private String symbol;
 	
 	@Column(name = "added")
@@ -55,11 +53,13 @@ public class Stock {
 		this.id = id;
 	}
 
-	public double getNumShares() {
+
+
+	public int getNumShares() {
 		return numShares;
 	}
 
-	public void setNumShares(double numShares) {
+	public void setNumShares(int numShares) {
 		this.numShares = numShares;
 	}
 
@@ -87,16 +87,14 @@ public class Stock {
 		this.added = added;
 	}
 	
-	
 
-	public double getSharesInLot() {
+	public int getSharesInLot() {
 		return sharesInLot;
 	}
 
-	public void setSharesInLot(double sharesInLot) {
+	public void setSharesInLot(int sharesInLot) {
 		this.sharesInLot = sharesInLot;
 	}
-
 
 	@Override
 	public String toString() {
