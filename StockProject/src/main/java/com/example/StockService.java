@@ -1,16 +1,21 @@
 package com.example;
 
-import java.math.BigDecimal;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import yahoofinance.YahooFinance;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 
 @Service
@@ -19,11 +24,11 @@ public class StockService {
 	private double totalPrice;
 	private int totalShares;
 
-	/*private String url;
+	private String url;
 	private String json;
 	private JsonParser parser;
 	private JsonElement element;
-	private JsonObject dataset;*/
+	private JsonObject dataset;
 
 	@Autowired
 	StockDao stockDao;
@@ -33,7 +38,9 @@ public class StockService {
 
 	Set<String> stockSet = new HashSet<String>();
 
-	/*public double getCurrentPrice(String symbol){
+	public double getCurrentPrice(String symbol){
+		
+		double price;
 
 		url = "http://www.google.com/finance/option_chain?q=" + symbol + "&output=json";
 		try {
@@ -41,8 +48,9 @@ public class StockService {
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
+			//System.out.println(e.getMessage());
+			//e.printStackTrace();
+			return price = 0.0;
 		}
 		parser = new JsonParser();
 		element = parser.parse(json);
@@ -50,9 +58,9 @@ public class StockService {
 		price = dataset.get("underlying_price").getAsDouble();
 
 		return price;
-	}*/
+	}
 
-	public Double getCurrentPrice(String quote){
+	/*public Double getCurrentPrice(String quote){
 		yahoofinance.Stock stock;
 		BigDecimal price = null;
 		double priceDouble;
@@ -69,7 +77,7 @@ public class StockService {
 
 		return priceDouble;
 
-	}
+	}*/
 
 	public List<StockTotalObject> getStockInfo(List<Stock> stockList) {
 		double totalPrice;
