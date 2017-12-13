@@ -42,7 +42,7 @@ public class StockService {
 		
 		double price;
 
-		url = "http://www.google.com/finance/option_chain?q=" + symbol + "&output=json";
+		url = "http://finance.google.com/finance/option_chain?q=" + symbol + "&output=json";
 		try {
 			json = IOUtils.toString(new URL(url), "UTF-8");
 		} catch (MalformedURLException e) {
