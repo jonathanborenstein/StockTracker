@@ -44,6 +44,15 @@ public class Stock {
 			added = new Date();
 		}
 	}
+	
+	public Stock(){};
+
+	public Stock(int numShares, double price, int sharesInLot, String symbol) {
+		this.numShares = numShares;
+		this.price = price;
+		this.sharesInLot = sharesInLot;
+		this.symbol = symbol;
+	}
 
 	public Long getId() {
 		return id;

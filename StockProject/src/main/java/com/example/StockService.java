@@ -24,23 +24,20 @@ public class StockService {
 	private double totalPrice;
 	private int totalShares;
 
-	private String url;
-	private String json;
-	private JsonParser parser;
-	private JsonElement element;
-	private JsonObject dataset;
-
 	@Autowired
 	StockDao stockDao;
 
 	@Autowired
 	RealizedDao realizedDao;
 
-	Set<String> stockSet = new HashSet<String>();
-
 	public double getCurrentPrice(String symbol){
 		
 		double price;
+		String url;
+		String json = "";
+		JsonParser parser;
+		JsonElement element;
+		JsonObject dataset;
 
 		url = "http://finance.google.com/finance/option_chain?q=" + symbol + "&output=json";
 		try {
@@ -80,6 +77,8 @@ public class StockService {
 	}*/
 
 	public List<StockTotalObject> getStockInfo(List<Stock> stockList) {
+		
+		Set<String> stockSet = new HashSet<String>();
 		double totalPrice;
 		double averagePrice;
 		double profit;
