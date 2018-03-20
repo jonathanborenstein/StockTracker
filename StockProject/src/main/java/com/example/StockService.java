@@ -30,8 +30,8 @@ public class StockService {
 	@Autowired
 	RealizedDao realizedDao;
 
-	public double getCurrentPrice(String symbol){
-		
+	/*public double getCurrentPrice(String symbol){
+
 		double price;
 		String url;
 		String json = "";
@@ -55,6 +55,34 @@ public class StockService {
 		price = dataset.get("underlying_price").getAsDouble();
 
 		return price;
+	}*/
+
+	public double getCurrentPrice(String symbol){
+
+		double price;
+		String url;
+		String json = "";
+		JsonParser parser;
+		JsonElement element;
+		JsonObject dataset;
+
+		url = "https://api.iextrading.com/1.0/stock/" + symbol + "/delayed-quote";
+		
+		try {
+			json = IOUtils.toString(new URL(url), "UTF-8");
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			//System.out.println(e.getMessage());
+			//e.printStackTrace();
+			return price = 0.0;
+		}
+		parser = new JsonParser();
+		element = parser.parse(json);
+		dataset = element.getAsJsonObject();
+		price = dataset.get("delayedPrice").getAsDouble();
+
+		return price;
 	}
 
 	/*public Double getCurrentPrice(String quote){
@@ -68,8 +96,9 @@ public class StockService {
 			priceDouble = price.doubleValue();
 
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			priceDouble = 0.0;
+			System.out.println("HI");
 		}
 
 		return priceDouble;
@@ -77,7 +106,7 @@ public class StockService {
 	}*/
 
 	public List<StockTotalObject> getStockInfo(List<Stock> stockList) {
-		
+
 		Set<String> stockSet = new HashSet<String>();
 		double totalPrice;
 		double averagePrice;
