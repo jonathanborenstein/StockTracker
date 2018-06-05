@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>StockTracker</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet" type="text/css"
+	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+</head>
+<style>
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+td, th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+</style>
+<body>
+
+	<nav class="navbar navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">StockTracker</a>
+			</div>
+		</div>
+	</nav>
+	
+
+
+	<div class="container" style="min-height: 500px">
+
+		<div class="starter-template">
+		
+			<h4>This is a way to track your portfolio in real time. If you
+		purchased 10 shares of Apple (SYMBOL:AAPL) at 150.00, you would enter
+		the symbol (AAPL), the amount of shares (10), and the price you
+		purchased at (150). Make sure the purchase tab is selected. If you
+		later on sold these shares at 200.00, you would enter the symbol
+		(AAPL), the amount of shares sold (10), and the price sold at (200).
+		Make sure the sale tab is selected.</h4>
+		
+		<br></br>
+
+
+
+			<form class="form-inline" id="search-form2"
+				th:object="${stockTransaction}">
+
+				<input type="text" class="input-small" id="symbol"
+					placeholder="Symbol" /> <input type="text" class="input-small"
+					id="shares" placeholder="Amount Of Shares" /> <input type="text"
+					class="input-small" id="price" placeholder="Price of Shares" /> <select
+					class="form-control" th:field="*{state}">
+					<option th:id="state"
+						th:each="state : ${T(com.example.demo.StockTransaction.State).values()}"
+						th:value="${state}" th:text="${state}"></option>
+				</select>
+				<button type="submit" id="bth-search2" class="btn">Post
+					Transaction</button>
+			</form>
+
+		</div>
+
+
+
+		<h1>Portfolio</h1>
+
+		<div id="feedback"></div>
+
+		<div align="center">
+			<h4>Current Profit:</h4>
+			<div id="feed"></div>
+		</div>
+
+
+		<h1>Realized Profits</h1>
+
+
+		<div id="messages"></div>
+
+		<h1>Transactions</h1>
+
+		<div id="stocks"></div>
+
+
+
+
+
+	</div>
+
+
+	<script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>
