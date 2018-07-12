@@ -7,8 +7,68 @@
 
 <link rel="stylesheet" type="text/css"
 	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+<!-- JQuery -->
+<script type="text/javascript" th:src="@{/js/jquery-3.2.0.min.js}"></script>
+<!--Import https://www.devbridge.com/sourcery/components/jquery-autocomplete/#-->
+<script type="text/javascript" th:src="@{/js/jquery.autocomplete.js}"></script>
+<!-- Compiled and minified JavaScript -->
+<script type="text/javascript" th:src="@{/js/materialize.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+
+
+<script>
+	$(document).ready(function() {
+
+		$('#symbol').devbridgeAutocomplete({
+			serviceUrl : '/suggestion',
+			paramName : 'searchstr',
+			minChars : 1,
+			autoSelectFirst : true,
+		});
+
+	});
+</script>
 </head>
 <style>
+.autocomplete-suggestions {
+	border: 1px solid #999;
+	background: #FFF;
+	overflow: auto;
+}
+
+.autocomplete-suggestion {
+	padding: 5px 5px;
+	white-space: nowrap;
+	overflow: hidden;
+	font-size: 22px
+}
+
+.autocomplete-selected {
+	background: #F0F0F0;
+}
+
+.autocomplete-suggestions strong {
+	font-weight: bold;
+	color: #3399FF;
+}
+
+.ui-widget label {
+	text-decoration: underline;
+}
+
+.ui-widget input {
+	width: 70%;
+	color: red;
+}
+
+.ui-menu .ui-menu-item {
+	color: blue;
+	background-color: gray;
+}
+
 table {
 	font-family: arial, sans-serif;
 	border-collapse: collapse;
@@ -30,29 +90,29 @@ td, th {
 			</div>
 		</div>
 	</nav>
-	
+
 
 
 	<div class="container" style="min-height: 500px">
 
-		<div class="starter-template">
-		
+		<div class="container">
+
 			<h4>This is a way to track your portfolio in real time. If you
-		purchased 10 shares of Apple (SYMBOL:AAPL) at 150.00, you would enter
-		the symbol (AAPL), the amount of shares (10), and the price you
-		purchased at (150). Make sure the purchase tab is selected. If you
-		later on sold these shares at 200.00, you would enter the symbol
-		(AAPL), the amount of shares sold (10), and the price sold at (200).
-		Make sure the sale tab is selected.</h4>
-		
-		<br></br>
+				purchased 10 shares of Apple (SYMBOL:AAPL) at 150.00, you would
+				enter the symbol (AAPL), the amount of shares (10), and the price
+				you purchased at (150). Make sure the purchase tab is selected. If
+				you later on sold these shares at 200.00, you would enter the symbol
+				(AAPL), the amount of shares sold (10), and the price sold at (200).
+				Make sure the sale tab is selected.</h4>
+
+			<br></br>
 
 
 
 			<form class="form-inline" id="search-form2"
 				th:object="${stockTransaction}">
 
-				<input type="text" class="input-small" id="symbol"
+				<input type="text" class="form-control autocomplete" id="symbol"
 					placeholder="Symbol" /> <input type="text" class="input-small"
 					id="shares" placeholder="Amount Of Shares" /> <input type="text"
 					class="input-small" id="price" placeholder="Price of Shares" /> <select
@@ -66,7 +126,6 @@ td, th {
 			</form>
 
 		</div>
-
 
 
 		<h1>Portfolio</h1>
@@ -94,9 +153,6 @@ td, th {
 
 	</div>
 
-
-	<script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
 
 </body>
 </html>

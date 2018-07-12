@@ -38,7 +38,6 @@ public class StockController {
 	@GetMapping("/profits")
 	public String profits() {
 		
-		System.out.println("HELLO");
 		List<StockTransaction> stockList = stockTransactionRepository.findAllByOrderBySymbolAsc();
 		List<StockTotalObject> stockTotalObjectList = stockService.getStockInfo(stockList);
 		
@@ -64,7 +63,6 @@ public class StockController {
 	@PostMapping("/post")
 	public ResponseEntity<?> post(@Valid @RequestBody StockTransaction st, Errors errors){
 		
-		System.out.println(st.getState().name());
 
 		if (errors.hasErrors() || stockService.getCurrentPrice(st.getSymbol()).compareTo(BigDecimal.ZERO) == 0 
 				|| st.getNumOfShares() == 0) {
@@ -80,13 +78,6 @@ public class StockController {
 			stockService.calcRealizedProfit(st);
 		}
 
-		System.out.println(st.getNumOfShares());
-		System.out.println(st.getSharesInLot());
-		System.out.println(st.getSymbol());
-		System.out.println(st.getPriceOfShares());
-
-
-		
 
 		return ResponseEntity.ok(stockTransactionRepository.save(st));
 

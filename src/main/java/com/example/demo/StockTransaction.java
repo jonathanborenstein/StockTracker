@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Digits;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,8 +22,10 @@ public class StockTransaction {
 	@GeneratedValue
 	private Long id;
 
+	@Digits(integer = 8, fraction = 0)
 	private int numOfShares;
-
+	
+	@Digits(integer = 8, fraction = 10)
 	private int sharesInLot;
 	
 	private State state;
