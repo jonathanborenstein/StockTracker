@@ -80,6 +80,9 @@ td, th {
 	text-align: left;
 	padding: 8px;
 }
+#search-form2{
+    text-align: center; 
+}
 </style>
 <body>
 
@@ -127,12 +130,12 @@ td, th {
 
 
 			<form class="form-inline" id="search-form2"
-				th:object="${stockTransaction}">
+				th:object="${stockTransaction}" >
 
-				<input type="text" class="form-control autocomplete" id="symbol"
-					placeholder="Symbol" /> <input type="text" class="input-small"
+				<input type="text" class="form-control" id="symbol"
+					placeholder="Symbol" /> <input type="text" class="form-control"
 					id="shares" placeholder="Amount Of Shares" /> <input type="text"
-					class="input-small" id="price" placeholder="Price of Shares" /> <select
+					class="form-control" id="price" placeholder="Price of Shares" /> <select
 					class="form-control" th:field="*{state}">
 					<option th:id="state"
 						th:each="state : ${T(com.example.demo.StockTransaction.State).values()}"
