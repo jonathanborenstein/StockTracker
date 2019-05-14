@@ -93,12 +93,9 @@ public class StockController {
 	@GetMapping("/sample")
 	public ResponseEntity<?> sample(){
 		
-		String[] array = {"AAPL", "TWTR", "NFLX", "TSLA", "AMD", "NVDA", "FB", "UBER", "GE", "AMZN"};
-		
-		System.out.println((int) (Math.random() * array.length));
-		
+		String[] array = {"AAPL", "TWTR", "NFLX", "MSFT", "GOOG", "TSLA", "AMD", "NVDA", "FB", "UBER", "GE", "AMZN"};
+				
 		String random = array[(int) (Math.random() * array.length)];
-		System.out.println(random);
 		
 		StockTransaction st = new StockTransaction();
 		st.setSymbol(random);
@@ -109,6 +106,27 @@ public class StockController {
 		
 
 		return ResponseEntity.ok(stockTransactionRepository.save(st));
+
+	}
+	
+	@GetMapping("/samplesale")
+	public ResponseEntity<StockTransaction> sampleSale(){
+		
+		String[] array = {"AAPL", "MSFT", "FB", "GOOG"};
+				
+		String random = array[(int) (Math.random() * array.length)];
+		
+		StockTransaction st = new StockTransaction();
+		st.setSymbol(random);
+		st.setNumOfShares(100);
+		st.setPriceOfShares(stockService.getCurrentPrice(random));
+		st.setState(State.SALE);
+
+				
+		stockService.calcRealizedProfit(st);
+		
+		return ResponseEntity.ok(stockTransactionRepository.save(st));
+
 
 
 	}

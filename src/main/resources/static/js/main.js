@@ -19,6 +19,13 @@ $(document).ready(function() {
 		samplePurchase();
 
 	});
+	
+	$("#sample-sale").submit(function(event) {
+
+		event.preventDefault();
+		sampleSale();
+
+	});
 
 });
 
@@ -86,6 +93,36 @@ function samplePurchase() {
 
 
 			console.log("SUCCESS : ", data);
+			profits();
+			transactions();
+			realizedProfit();
+
+		},
+		error : function(e) {
+
+		}
+	});
+
+}
+
+function sampleSale() {
+
+
+	$.ajax({
+		type : "GET",
+		contentType : "application/json",
+		url : "/samplesale",
+		// data: JSON.stringify(search),
+		dataType : 'text',
+		cache : false,
+		timeout : 600000,
+		success : function(data) {
+
+
+			console.log("SUCCESS : ", data);
+			profits();
+			transactions();
+			realizedProfit();
 
 		},
 		error : function(e) {
