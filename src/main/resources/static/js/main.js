@@ -281,6 +281,8 @@ function stock() {
 		success: function (data) {
 
 			$('input[type="text"],textarea').val('');
+			$('input[type="number"],textarea').val('');
+
 			profits();
 			transactions();
 			realizedProfit();
