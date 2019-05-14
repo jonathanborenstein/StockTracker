@@ -21,4 +21,4 @@ Go to the directory where you cloned it and go to StockTracker/StockProject
 Once there run    
 <code>mvn clean spring-boot:run</code>
 
-Once the program is running go to localhost:8080/stocks as your starting point.
+Once the program is running go to localhost:8080 as your starting point.
