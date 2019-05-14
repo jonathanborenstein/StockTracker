@@ -12,6 +12,13 @@ $(document).ready(function() {
 		stock();
 
 	});
+	
+	$("#sample-purchase").submit(function(event) {
+
+		event.preventDefault();
+		samplePurchase();
+
+	});
 
 });
 
@@ -64,6 +71,29 @@ function realizedProfit() {
 
 }
 
+function samplePurchase() {
+
+
+	$.ajax({
+		type : "GET",
+		contentType : "application/json",
+		url : "/sample",
+		// data: JSON.stringify(search),
+		dataType : 'text',
+		cache : false,
+		timeout : 600000,
+		success : function(data) {
+
+
+			console.log("SUCCESS : ", data);
+
+		},
+		error : function(e) {
+
+		}
+	});
+
+}
 
 function profits() {
 

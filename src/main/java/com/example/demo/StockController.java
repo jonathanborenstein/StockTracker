@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -12,18 +13,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.StockTransaction.State;
+
 @RestController
 public class StockController {
 
 	private final StockTransactionRepository stockTransactionRepository;
 	private final RealizedStockRepository realizedStockRepository;
+	private final SymbolRepository symbolRepository;
 	private final StockService stockService;
 
 
 	public StockController(StockTransactionRepository stockTransactionRepository,
-			RealizedStockRepository realizedStockRepository, StockService stockService) {
+			RealizedStockRepository realizedStockRepository, SymbolRepository symbolRepository,
+			StockService stockService) {
 		this.stockTransactionRepository = stockTransactionRepository;
 		this.realizedStockRepository = realizedStockRepository;
+		this.symbolRepository = symbolRepository;
 		this.stockService = stockService;
 	}
 
@@ -78,6 +84,29 @@ public class StockController {
 			stockService.calcRealizedProfit(st);
 		}
 
+
+		return ResponseEntity.ok(stockTransactionRepository.save(st));
+
+
+	}
+	
+	@GetMapping("/sample")
+	public ResponseEntity<?> sample(){
+		
+		String[] array = {"AAPL", "TWTR", "NFLX", "TSLA", "AMD", "NVDA", "FB", "UBER", "GE", "AMZN"};
+		
+		System.out.println((int) (Math.random() * array.length));
+		
+		String random = array[(int) (Math.random() * array.length)];
+		System.out.println(random);
+		
+		StockTransaction st = new StockTransaction();
+		st.setSymbol(random);
+		st.setNumOfShares(100);
+		st.setSharesInLot(st.getNumOfShares());
+		st.setState(State.PURCHASE);
+		st.setPriceOfShares(stockService.getCurrentPrice(random));
+		
 
 		return ResponseEntity.ok(stockTransactionRepository.save(st));
 
