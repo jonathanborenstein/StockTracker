@@ -139,7 +139,7 @@ public class StockService {
 		
 		BigDecimal price;
 
-		url = "https://api.iextrading.com/1.0/stock/"+ symbol + "/quote";
+		url = "https://financialmodelingprep.com/api/v3/stock/real-time-price/"+ symbol;
 
 		try {
 			json = IOUtils.toString(new URL(url), "UTF-8");
@@ -152,7 +152,7 @@ public class StockService {
 		parser = new JsonParser();
 		element = parser.parse(json);
 		dataset = element.getAsJsonObject();
-		price = BigDecimal.valueOf(dataset.get("iexRealtimePrice").getAsDouble());
+		price = BigDecimal.valueOf(dataset.get("price").getAsDouble());
 
 		return price.setScale(3, RoundingMode.HALF_UP);
 	}
