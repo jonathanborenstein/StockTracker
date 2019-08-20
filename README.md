@@ -22,3 +22,7 @@ Once there run
 <code>mvn clean spring-boot:run</code>
 
 Once the program is running go to localhost:8080 as your starting point.
+
+To user Docker, first build the image with the command <code>docker build -t stocktracker .</code>. To run the container use the command <code>docker run -p 8080:8080 stocktracker:latest</code> and it should run at localhost:8080.
+
+
